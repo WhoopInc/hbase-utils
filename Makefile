@@ -1,5 +1,5 @@
 DISTDIR = dist
-CLASSES = $(DISTDIR)/HBaseTruncate.class
+CLASSES = $(DISTDIR)/TSDBTruncate.class
 
 JC = javac
 JFLAGS = -cp $(shell hbase classpath) -d $(DISTDIR)
