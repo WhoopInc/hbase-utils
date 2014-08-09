@@ -1,0 +1,24 @@
+#!/bin/bash
+
+script=$(basename ${BASH_SOURCE[0]})
+class=${script}.class
+hbcp=$(hbase classpath)
+if [[ -z $hbcp ]]; then
+  echo "Couldn't load HBase classpath" >&2
+  exit 1
+fi
+bindir="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+rootdir=$(dirname $bindir)
+srcdir=$rootdir/src
+src=$srcdir/${script}.java
+
+
+if [[ ! -e $bindir/$class ]]; then
+  javac -cp $hbcp -d $bindir $src
+  if [[ $? -ne 0 ]]; then
+    echo "Failed to compile" >&2
+    exit 1
+  fi
+fi
+
+java -cp $hbcp:$bindir $script "$@"
